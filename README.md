@@ -1,5 +1,7 @@
-# Ghidra
-## 基于GhidraMcp的快速部署脚本
+# Ghidra逆向
+## 基于GhidraMcp的快速逆向脚本
+使用qwen7b的高速处理性，批量进行函数重命名。再导出文件便于ai解析。
+逆向重写推荐cursor，记得给cursor配置MCP服务。
 ### 项目要求：python>3.10
 
 
@@ -40,3 +42,7 @@ MCP配置中用到的python路径填已经装了依赖的路径，另一个填[b
 # 小工具
 [一键更换国内镜像源.exe](%E5%B7%A5%E5%85%B7/%E4%B8%80%E9%94%AE%E6%9B%B4%E6%8D%A2%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90.exe)
 
+# 需要远程协助配置请发送邮件到：
+```text
+666888@guanyue.fun
+```
