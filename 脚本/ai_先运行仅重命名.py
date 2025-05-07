@@ -63,7 +63,7 @@ mcp = FastMCP("ghidra-mcp")
 @mcp.tool()
 def search_functions_by_name(query: str, offset: int = 0, limit: int = 100) -> list:
     """
-    Search for functions whose name contains the given substring.
+    根据给定的子字符串搜索符合条件的函数名
     """
     if not query:
         return ["Error: query string is required"]
@@ -72,14 +72,14 @@ def search_functions_by_name(query: str, offset: int = 0, limit: int = 100) -> l
 @mcp.tool()
 def decompile_function(name: str) -> str:
     """
-    Decompile a specific function by name and return the decompiled C code.
+    根据指定的函数名对函数进行反编译，并返回反编译后的C语言代码
     """
     return safe_post("decompile", name)
 
 @mcp.tool()
 def rename_function(old_name: str, new_name: str) -> str:
     """
-    Rename a function by its current name to a new user-defined name.
+    将指定的函数从当前名称重命名为新的用户定义名称。
     """
     return safe_post("renameFunction", {"oldName": old_name, "newName": new_name})
 
