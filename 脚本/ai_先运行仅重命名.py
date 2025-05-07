@@ -3,8 +3,9 @@ import requests
 import os
 import time
 from openai import OpenAI
-from typing import List, Optional
+from typing import Optional
 from mcp.server.fastmcp import FastMCP
+from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam
 
 # OpenAI配置
 OPENAI_API_KEY = "【填入自己的硅基流动密钥】"
@@ -92,14 +93,14 @@ def analyze_function(decompiled_code: str) -> Optional[str]:
         response = client.chat.completions.create(
             model=MODEL_NAME,
             messages=[
-                {
-                    "role": "system",
-                    "content": "你是一个代码分析专家。你的任务是分析C语言代码并生成一个恰当的函数名。规则：\n1. 必须使用英文\n2. 必须使用驼峰命名法\n3. 名称必须反映函数的主要功能\n4. 只返回函数名，不要包含任何其他文字\n5. 如果无法分析代码，返回None\n6. 函数名长度不要超过50个字符"
-                },
-                {
-                    "role": "user",
-                    "content": f"这是反编译的C代码，请分析并只返回一个合适的函数名：\n\n{decompiled_code}"
-                }
+                ChatCompletionSystemMessageParam(
+                    role="system",
+                    content="你是一个代码分析专家。你的任务是分析C语言代码并生成一个恰当的函数名。规则：\n1. 必须使用英文\n2. 必须使用驼峰命名法\n3. 名称必须反映函数的主要功能\n4. 只返回函数名，不要包含任何其他文字\n5. 如果无法分析代码，返回None\n6. 函数名长度不要超过50个字符"
+                ),
+                ChatCompletionUserMessageParam(
+                    role="user",
+                    content=f"这是反编译的C代码，请分析并只返回一个合适的函数名：\n\n{decompiled_code}"
+                )
             ],
             temperature=0.7,
             max_tokens=50
