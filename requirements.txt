@@ -1,0 +1,5 @@
+requests>=2.32.0
+openai>=1.74.0
+mcp>=1.6.0
+typing
+#pip install -r requirements.txt
