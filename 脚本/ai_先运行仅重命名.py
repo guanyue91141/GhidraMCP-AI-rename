@@ -90,6 +90,7 @@ def analyze_function(decompiled_code: str) -> Optional[str]:
         return None
         
     try:
+        # 调用OpenAI API
         response = client.chat.completions.create(
             model=MODEL_NAME,
             messages=[
