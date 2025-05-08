@@ -1,3 +1,4 @@
+import random
 import sys
 import requests
 import os
@@ -164,6 +165,10 @@ def process_functions(config: dict):
                         continue
 
                     # 执行重命名
+                    #使用search_functions_by_name先检查此函数名字是否已经存在 如果存在则加上后缀
+                    if search_functions_by_name(new_name, limit=1):
+                        new_name += "_" + str(random.randint(1000, 9999))
+
                     result = rename_function(clean_func_name, new_name)
                     if "Error" not in result:
                         print(f"重命名成功: {func_name} -> {new_name}")
