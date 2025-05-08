@@ -147,12 +147,12 @@ def save_functions(batch_size: int = 50, max_workers: int = 10):
 
 def main():
     # 获取命令行参数
-    max_workers = 10  # 默认线程数
+    max_workers = 5  # 默认线程数
     if len(sys.argv) > 2:
         try:
             max_workers = int(sys.argv[2])
         except ValueError:
-            safe_print("线程数必须是整数，使用默认值10")
+            safe_print("线程数必须是整数，使用默认值5")
 
     safe_print(f"开始保存所有函数的反编译代码")
     safe_print(f"源码将保存至目录: {OUTPUT_DIR}")
