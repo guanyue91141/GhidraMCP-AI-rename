@@ -7,6 +7,8 @@
 
 ### Ghidra下载：https://github.com/NationalSecurityAgency/ghidra
 ### JDK21+下载：https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html
+### 樱桃下载：https://www.cherry-ai.com/download
+#### 已知樱桃1.2.8-1.2.9的MCP服务器功能有bug，请下载1.2.10或更新的版本
 ### GhidraMCP配置：
 https://github.com/user-attachments/assets/75f0c176-6da1-48dc-ad96-c182eb4648c3
 
