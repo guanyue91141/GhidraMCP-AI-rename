@@ -120,6 +120,9 @@ def analyze_function(decompiled_code: str, client, model_name: str) -> Optional[
 
 def process_functions(config: dict, client, model_name: str):
     """批量处理函数重命名"""
+    consecutive_failures = 0  # 初始化连续失败计数器
+    max_consecutive_failures = 10 # 最大连续失败次数
+
     try:
         offset = 0
         while True:
@@ -159,7 +162,14 @@ def process_functions(config: dict, client, model_name: str):
                     new_name = analyze_function(decompiled, client, model_name)
                     if not new_name:
                         print(f"跳过 {func_name}: AI分析失败或返回无效函数名")
+                        consecutive_failures += 1
+                        if consecutive_failures >= max_consecutive_failures:
+                            print(f"\n连续 {max_consecutive_failures} 次AI调用失败或返回无效名称。")
+                            print("请检查您的API密钥是否正确或网络连接是否正常。脚本将停止。")
+                            sys.exit(1) # 退出脚本
                         continue
+                    else:
+                        consecutive_failures = 0 # AI调用成功，重置计数器
 
                     # 执行重命名
                     #使用search_functions_by_name先检查此函数名字是否已经存在 如果存在则加上后缀
@@ -223,4 +233,4 @@ def main():
     print("处理完成")
 
 if __name__ == "__main__":
-    main() 
+    main()
