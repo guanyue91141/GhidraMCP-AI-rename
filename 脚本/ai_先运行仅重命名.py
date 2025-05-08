@@ -7,16 +7,13 @@ from openai import OpenAI
 from typing import Optional
 from mcp.server.fastmcp import FastMCP
 from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam
-
-# OpenAI配置
-OPENAI_API_KEY = "【填入自己的硅基流动密钥】"
-OPENAI_API_BASE = "https://api.siliconflow.cn/"
-MODEL_NAME = "Qwen/Qwen2.5-72B-Instruct"
-# 配置OpenAI客户端
-client = OpenAI(
-    api_key=OPENAI_API_KEY,
-    base_url=OPENAI_API_BASE
-)
+try:
+    from dotenv import load_dotenv
+    has_dotenv = True
+except ImportError:
+    has_dotenv = False
+    print("提示: 未安装dotenv库，无法从.env文件加载配置")
+    print("可通过运行 'pip install python-dotenv' 安装")
 
 # Ghidra服务器配置
 DEFAULT_GHIDRA_SERVER = "http://127.0.0.1:8080/"
@@ -84,7 +81,7 @@ def rename_function(old_name: str, new_name: str) -> str:
     """
     return safe_post("renameFunction", {"oldName": old_name, "newName": new_name})
 
-def analyze_function(decompiled_code: str) -> Optional[str]:
+def analyze_function(decompiled_code: str, client, model_name: str) -> Optional[str]:
     """使用AI模型分析反编译代码并生成合适的函数名"""
     if not decompiled_code or len(decompiled_code.strip()) == 0:
         print("警告: 收到空的反编译代码")
@@ -93,7 +90,7 @@ def analyze_function(decompiled_code: str) -> Optional[str]:
     try:
         # 调用OpenAI API
         response = client.chat.completions.create(
-            model=MODEL_NAME,
+            model=model_name,
             messages=[
                 ChatCompletionSystemMessageParam(
                     role="system",
@@ -121,7 +118,7 @@ def analyze_function(decompiled_code: str) -> Optional[str]:
         print(f"AI API调用失败: {str(e)}")
         return None
 
-def process_functions(config: dict):
+def process_functions(config: dict, client, model_name: str):
     """批量处理函数重命名"""
     try:
         offset = 0
@@ -159,7 +156,7 @@ def process_functions(config: dict):
                     print("----------------------------------------")
 
                     # AI分析并重命名
-                    new_name = analyze_function(decompiled)
+                    new_name = analyze_function(decompiled, client, model_name)
                     if not new_name:
                         print(f"跳过 {func_name}: AI分析失败或返回无效函数名")
                         continue
@@ -187,13 +184,34 @@ def process_functions(config: dict):
         print(f"批处理过程出错: {str(e)}")
 
 def main():
+    # 尝试加载.env文件
+    if has_dotenv:
+        # 获取脚本所在目录的.env文件
+        env_path = os.path.join(script_dir, ".env")
+        if os.path.exists(env_path):
+            load_dotenv(env_path)
+            print(f"已从 {env_path} 加载环境变量配置")
+        else:
+            print("未找到.env文件，将使用默认配置")
+    
+    # OpenAI配置 - 优先从环境变量读取，如不存在则使用默认值
+    openai_api_key = os.environ.get("OPENAI_API_KEY", "填入硅基流动API密钥")
+    openai_api_base = os.environ.get("OPENAI_API_BASE", "https://api.siliconflow.cn/")
+    model_name = os.environ.get("OPENAI_MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
+    
+    print(f"使用模型: {model_name}")
+    
+    # 配置OpenAI客户端
+    client = OpenAI(
+        api_key=openai_api_key,
+        base_url=openai_api_base
+    )
     # 函数特征配置
     config = {
         'function_pattern': "FUN_",  # 要搜索的函数名模式
         'batch_size': 50,           # 每批处理的函数数量
         'delay': 1.0,              # 处理每个函数之间的延迟时间（秒）
     }
-    
     print("开始批量处理函数重命名...")
     print(f"配置信息:")
     print(f"- 函数名模式: {config['function_pattern']}")
@@ -201,7 +219,7 @@ def main():
     print(f"- 处理延迟: {config['delay']}秒")
     print("-" * 50)
     
-    process_functions(config)
+    process_functions(config, client, model_name)
     print("处理完成")
 
 if __name__ == "__main__":
