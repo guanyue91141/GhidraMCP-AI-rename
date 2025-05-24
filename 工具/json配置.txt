@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "V8Xm8V7ViUQC832L0yAcu": {
+      "name": "GhidraMcp",
+      "type": "stdio",
+      "description": "",
+      "isActive": true,
+      "command": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "args": [
+        "C:\\Users\\Administrator\\Documents\\GhidraMCP-AI-rename\\脚本\\bridge_mcp_ghidra.py"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "list_imports"
+      ]
+    }
+  }
+}
