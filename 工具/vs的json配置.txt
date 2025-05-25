@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "V8Xm8V7ViUQC832L0yAcu": {
+    "GhidraMcp": {
       "name": "GhidraMcp",
       "type": "stdio",
       "description": "",

@@ -205,7 +205,7 @@ def main():
             print("未找到.env文件，将使用默认配置")
     
     # OpenAI配置 - 优先从环境变量读取，如不存在则使用默认值
-    openai_api_key = os.environ.get("OPENAI_API_KEY", "填入硅基流动API密钥")
+    openai_api_key = os.environ.get("OPENAI_API_KEY", "SK-XXXXXXXXXXXXXXXXXXXXXXXXXXX")
     openai_api_base = os.environ.get("OPENAI_API_BASE", "https://api.siliconflow.cn/")
     model_name = os.environ.get("OPENAI_MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
     
