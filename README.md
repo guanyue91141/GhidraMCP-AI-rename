@@ -21,9 +21,32 @@ https://github.com/user-attachments/assets/75f0c176-6da1-48dc-ad96-c182eb4648c3
 MCP配置中用到的python路径填已经装了依赖的路径，另一个填[bridge_mcp_ghidra.py](%E8%84%9A%E6%9C%AC/bridge_mcp_ghidra.py)
 的路径。
 # 樱桃配置
+command填写python路径,并使用双反斜杠,args填写bridge_mcp_ghidra.py的路径.
 ![image.png](图片/image.png)
-
+# VS code 的cline配置
+command填写python路径,并使用双反斜杠,args填写bridge_mcp_ghidra.py的路径.
+```
+{
+  "mcpServers": {
+    "GhidraMCP": {
+      "name": "GhidraMcp",
+      "type": "stdio",
+      "description": "",
+      "isActive": true,
+      "command": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "args": [
+        "C:\\Users\\Administrator\\Documents\\GhidraMCP-AI-rename\\脚本\\bridge_mcp_ghidra.py"
+      ],
+      "disabled": false,
+      "autoApprove": [
+        "list_imports"
+      ]
+    }
+  }
+}
+```
 # Cursor配置：
+command填写python路径,并使用双反斜杠,args填写bridge_mcp_ghidra.py的路径.
 ```json
 {
   "mcpServers": {
