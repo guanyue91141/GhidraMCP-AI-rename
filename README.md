@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/guanyue91141-ghidramcp-ai-rename-badge.png)](https://mseep.ai/app/guanyue91141-ghidramcp-ai-rename)
+
 # Ghidra逆向
 ## 基于GhidraMcp的快速逆向脚本
 使用qwen7b的高速处理性，批量进行函数重命名。再导出文件便于ai解析。
