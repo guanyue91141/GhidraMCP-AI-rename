@@ -217,7 +217,6 @@ def process_functions(config: dict, client, model_name: str, functions: list, on
                 # 只显示函数签名和开头部分
                 first_line = decompiled.split('\n')[0]
                 emit_log(f"函数签名: {first_line}")
-                emit_log("----------------------------------------")
 
                 # AI分析并重命名
                 new_name = analyze_function(decompiled, client, model_name)
@@ -230,7 +229,6 @@ def process_functions(config: dict, client, model_name: str, functions: list, on
                         break
                 else:
                     consecutive_failures = 0 # AI调用成功，重置计数器
-
                     # 执行重命名
                     #使用search_functions_by_name先检查此函数名字是否已经存在 如果存在则加上后缀
                     if search_functions_by_name(new_name, limit=1):
@@ -239,9 +237,10 @@ def process_functions(config: dict, client, model_name: str, functions: list, on
                     result = rename_function(clean_func_name, new_name)
                     if "Error" not in result:
                         emit_log(f"重命名成功: {func_name} -> {new_name}")
+                        
                     else:
                         emit_log(f"重命名失败 {func_name}: {result}")
-
+                    emit_log("----------------------------------------")
             except Exception as e:
                 emit_log(f"处理函数 {func_name} 时出错: {str(e)}")
 
